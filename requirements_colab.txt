@@ -1,0 +1,10 @@
+gymnasium
+tensorboard
+tensorboardX
+matplotlib
+ipython
+moviepy
+pyvirtualdisplay
+torch
+opencv-python
+ipdb

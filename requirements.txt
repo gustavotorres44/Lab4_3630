@@ -1,0 +1,12 @@
+numpy
+gymnasium
+mujoco
+tensorboard
+tensorboardX
+matplotlib
+ipython
+moviepy
+pyvirtualdisplay
+torch
+opencv-python
+ipdb
