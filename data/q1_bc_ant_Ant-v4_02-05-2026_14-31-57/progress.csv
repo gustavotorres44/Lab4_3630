@@ -1,0 +1,2 @@
+Eval_AverageEpLen,Eval_AverageReturn,Eval_MaxReturn,Eval_MinReturn,Eval_StdReturn,Initial_DataCollection_AverageReturn,TimeSinceStart,Train_AverageEpLen,Train_AverageReturn,Train_EnvstepsSoFar,Train_MaxReturn,Train_MinReturn,Train_StdReturn,Training Loss,step
+1000.0,907.24646,907.24646,907.24646,0.0,4713.6533,0.27586913108825684,1000.0,4713.6533,2000,4725.8496,4701.4565,12.196533,0.036639515,0

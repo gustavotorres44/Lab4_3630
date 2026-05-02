@@ -28,14 +28,15 @@ class BCAgent(BaseAgent):
         # TODO: train the BC actor on the sampled batch and return the training log.
         # HINT: BC only needs (observation, expert action) pairs, even though
         # rewards/next observations/terminals are passed through for interface compatibility.
-        raise NotImplementedError
+        log = self.actor.update(observations, expert_actions)
+        return log
 
     def add_to_replay_buffer(self, paths):
         self.replay_buffer.add_rollouts(paths)
 
     def sample(self, batch_size):
         # TODO: sample a uniformly random supervised minibatch from the replay buffer.
-        raise NotImplementedError
+        return self.replay_buffer.sample_random_data(batch_size)
 
     def save(self, path):
         return self.actor.save(path)

@@ -76,7 +76,14 @@ class ReplayBuffer(object):
         # HINT: draw one shared set of random indices, then use those same
         # indices for observations, actions, rewards, next observations,
         # and terminals so each sampled transition stays aligned.
-        raise NotImplementedError
+        rand_idx = np.random.permutation(self.obs.shape[0])[:batch_size]
+        return (
+            self.obs[rand_idx],
+            self.acs[rand_idx],
+            self.rews[rand_idx],
+            self.next_obs[rand_idx],
+            self.terminals[rand_idx],
+        )
 
     def sample_recent_data(self, batch_size=1):
         return (

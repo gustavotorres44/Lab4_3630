@@ -72,7 +72,12 @@ class MLPPolicy(nn.Module):
         # HINT: for discrete policies, sample from the categorical distribution.
         # HINT: for continuous BC evaluation, use the learned mean action directly
         # instead of adding Gaussian exploration noise.
-        raise NotImplementedError
+        with torch.no_grad():
+            if self.discrete:
+                logit_vals = self.logits_na(obs)
+                action = torch.distributions.Categorical(logits=logit_vals).sample()
+            else:
+                action = self.mean_na(obs)  # use mean directly for BC eval
         return ptu.to_numpy(action)  # Return with batch dimension, utils.py will extract [0]
 
 
@@ -92,4 +97,9 @@ class MLPPolicySL(MLPPolicy):
         # TODO: update the policy on the provided supervised batch and return the loss.
         # HINT: supervised BC compares predicted actions to expert labels directly,
         # so train against differentiable network outputs rather than sampled actions.
-        raise NotImplementedError
+        self.optimizer.zero_grad()
+        predicted_ac = self.mean_na(observations)
+        train_loss = self.loss(predicted_ac, actions)
+        train_loss.backward()
+        self.optimizer.step()
+        return {'Training Loss': ptu.to_numpy(train_loss)}

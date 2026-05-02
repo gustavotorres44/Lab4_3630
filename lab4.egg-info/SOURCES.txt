@@ -1,0 +1,6 @@
+README.md
+setup.py
+lab4.egg-info/PKG-INFO
+lab4.egg-info/SOURCES.txt
+lab4.egg-info/dependency_links.txt
+lab4.egg-info/top_level.txt

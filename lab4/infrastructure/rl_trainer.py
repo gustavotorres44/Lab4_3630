@@ -195,11 +195,11 @@ class RL_Trainer(object):
             # TODO: sample one supervised minibatch from the replay buffer.
             # HINT: use the agent's `sample(...)` function with
             # `self.params['train_batch_size']`.
-            raise NotImplementedError
+            ob_batch, ac_batch, re_batch, next_ob_batch, terminal_batch = self.agent.sample(self.params['train_batch_size'])
 
             # TODO: run one gradient step and keep the returned metrics for logging.
             # HINT: use the agent's `train(...)` function.
-            raise NotImplementedError
+            train_log = self.agent.train(ob_batch, ac_batch, re_batch, next_ob_batch, terminal_batch)
             all_logs.append(train_log)
         return all_logs
 

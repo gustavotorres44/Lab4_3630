@@ -44,7 +44,7 @@ def sample_trajectory(env, policy, max_path_length, render=False, render_mode=('
         # TODO: mark the final transition of the rollout.
         # HINT: end the rollout either when the environment is done or when
         # `steps` reaches `max_path_length`.
-        raise NotImplementedError
+        rollout_done = done or (steps >= max_path_length)
         terminals.append(rollout_done)
 
         if rollout_done:
@@ -64,7 +64,11 @@ def sample_trajectories(env, policy, min_timesteps_per_batch, max_path_length, r
     """
     timesteps_this_batch = 0
     paths = []
-    raise NotImplementedError
+    while timesteps_this_batch < min_timesteps_per_batch:
+        traj = sample_trajectory(env, policy, max_path_length, render, render_mode)
+        paths.append(traj)
+        timesteps_this_batch += get_pathlength(traj)
+    return paths, timesteps_this_batch
 
 def sample_n_trajectories(env, policy, ntraj, max_path_length, render=False, render_mode=('rgb_array')):
     """
@@ -75,7 +79,10 @@ def sample_n_trajectories(env, policy, ntraj, max_path_length, render=False, ren
         the resulting list of rollout dictionaries.
     """
     paths = []
-    raise NotImplementedError
+    for idx in range(ntraj):
+        traj = sample_trajectory(env, policy, max_path_length, render, render_mode)
+        paths.append(traj)
+    return paths
 
 ############################################
 ############################################
