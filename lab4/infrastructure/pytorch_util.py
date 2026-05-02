@@ -49,7 +49,15 @@ def build_mlp(
     # HINT: stack `n_layers` hidden Linear+activation blocks, then add one final
     # Linear layer followed by the requested output activation.
     # HINT: `nn.Sequential` is a convenient way to package the full network.
-    raise NotImplementedError
+    layer_list = []
+    curr_size = input_size
+    for i in range(n_layers):
+        layer_list.append(nn.Linear(curr_size, size))
+        layer_list.append(activation)
+        curr_size = size
+    layer_list.append(nn.Linear(curr_size, output_size))
+    layer_list.append(output_activation)
+    return nn.Sequential(*layer_list)
 
 
 device = None

@@ -1,5 +1,6 @@
 from collections import OrderedDict
 import numpy as np
+import pickle
 import time
 
 import gymnasium as gym
@@ -159,12 +160,18 @@ class RL_Trainer(object):
         # demonstration file. On later iterations, collect on-policy rollouts
         # with the current policy.
         # NOTE: in plain BC, `n_iter=1` keeps training focused on expert data only.
-        raise NotImplementedError
-
-        # TODO: collect at least `batch_size` timesteps of fresh data.
-        # HINT: use `utils.sample_trajectories(...)` and `self.params['ep_len']`
-        # as the maximum rollout length.
-        raise NotImplementedError
+        if itr == 0:
+            with open(load_initial_expertdata, 'rb') as f:
+                loaded_paths = pickle.load(f)
+            paths = loaded_paths
+            envsteps_this_batch = sum(utils.get_pathlength(p) for p in paths)
+        else:
+            # TODO: collect at least `batch_size` timesteps of fresh data.
+            # HINT: use `utils.sample_trajectories(...)` and `self.params['ep_len']`
+            # as the maximum rollout length.
+            paths, envsteps_this_batch = utils.sample_trajectories(
+                self.env, collect_policy, batch_size, self.params['ep_len']
+            )
 
         # collect more rollouts with the same policy, to be saved as videos in tensorboard
         # note: here, we collect MAX_NVIDEO rollouts, each of length MAX_VIDEO_LEN
@@ -173,7 +180,9 @@ class RL_Trainer(object):
             print('\nCollecting train rollouts to be used for saving videos...')
             # TODO: collect a small fixed set of rollouts for TensorBoard videos.
             # HINT: use `utils.sample_n_trajectories(...)`.
-            raise NotImplementedError
+            train_video_paths = utils.sample_n_trajectories(
+                self.env, collect_policy, MAX_NVIDEO, MAX_VIDEO_LEN, True
+            )
 
         return paths, envsteps_this_batch, train_video_paths
 
